@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  fluentd:
+    image: fluent/fluentd:v1.3-1
+    container_name: test_fluentd
+    ports:
+      - "24224:24224"
+    expose:
+      - 24224
+  web:
+    image: httpd
+    container_name: test_httpd
+    ports:
+      - "80:80"
+    expose:
+      - 80
+    logging:
+      driver: "fluentd"
+    depends_on:
+      - fluentd
